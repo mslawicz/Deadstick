@@ -15,6 +15,7 @@
 //#include "constant.h"
 #include "logger.h"
 //#include "monitor.h"
+#include "HX711.h"
 #include <iostream>
 
 ADC_HandleTypeDef* pHadc;    //pointer to ADC object
@@ -31,6 +32,8 @@ void mainLoop()
     Timer statusLedTimer;
 //    Timer gameCtrlTimer;
 
+    HX711 forceSensorLeft(HX711_1_clk_GPIO_Port, HX711_1_clk_Pin, HX711_1_data_GPIO_Port, HX711_1_data_Pin, HX711Mode::A128);
+
     LOG_ALWAYS("Deadstick v0.1");
 
     //assign system LEDs
@@ -41,14 +44,21 @@ void mainLoop()
 
     Timer::start(pTimerHtim);
 
+    float forceValue{0};
+
     /* main forever loop */
     while(true)
     {
-
         if(statusLedTimer.hasElapsed(HeartbeatPeriod))
         {
             HAL_GPIO_TogglePin(heartbeatLedPort, heartbeatLedPin);
             statusLedTimer.reset();
+            std::cout << "\r" << forceValue << "     ";
+        }
+
+        if(forceSensorLeft.isDataReady())   //XXX test
+        {
+            forceValue = forceSensorLeft.getValue();
         }
 
 //        if(gameCtrlTimer.hasElapsed(GameController::ReportInterval))
