@@ -14,16 +14,15 @@
 //#include "convert.h"
 //#include "constant.h"
 #include "logger.h"
-//#include "monitor.h"
+#include "monitor.h"
 #include "HX711.h"
 #include <iostream>
 
 ADC_HandleTypeDef* pHadc;    //pointer to ADC object
 uint16_t adcConvBuffer[MAX_ADC_CH]; //buffer for ADC conversion results
 
-
 #ifdef MONITOR
-//int16_t monitor_elevTrim;
+int16_t monitor_forceX;
 #endif
 
 void mainLoop()
@@ -66,6 +65,10 @@ void mainLoop()
 //            gameController.sendReport();
 //            gameCtrlTimer.reset();
 //        }
+
+#ifdef MONITOR
+        monitor_forceX = static_cast<int16_t>(forceValue * 1000);
+#endif
     }
 }
 
