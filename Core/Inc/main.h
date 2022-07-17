@@ -65,6 +65,8 @@ void Error_Handler(void);
 #define MCO_GPIO_Port GPIOH
 #define LD1_Pin GPIO_PIN_0
 #define LD1_GPIO_Port GPIOB
+#define HX711_2_data_Pin GPIO_PIN_15
+#define HX711_2_data_GPIO_Port GPIOE
 #define LD3_Pin GPIO_PIN_14
 #define LD3_GPIO_Port GPIOB
 #define STLK_RX_Pin GPIO_PIN_8
@@ -97,6 +99,8 @@ void Error_Handler(void);
 #define SWO_GPIO_Port GPIOB
 #define LD2_Pin GPIO_PIN_7
 #define LD2_GPIO_Port GPIOB
+#define HX711_2_clk_Pin GPIO_PIN_0
+#define HX711_2_clk_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -32,6 +32,7 @@ void mainLoop()
 //    Timer gameCtrlTimer;
 
     HX711 forceSensorLeft(HX711_1_clk_GPIO_Port, HX711_1_clk_Pin, HX711_1_data_GPIO_Port, HX711_1_data_Pin, HX711Mode::A128);
+    HX711 forceSensorRight(HX711_2_clk_GPIO_Port, HX711_2_clk_Pin, HX711_2_data_GPIO_Port, HX711_2_data_Pin, HX711Mode::A128);
 
     LOG_ALWAYS("Deadstick v0.1");
 
@@ -43,7 +44,8 @@ void mainLoop()
 
     Timer::start(pTimerHtim);
 
-    float forceValue{0};
+    float forceLeftValue{0};
+    float forceRightValue{0};
 
     /* main forever loop */
     while(true)
@@ -52,12 +54,16 @@ void mainLoop()
         {
             HAL_GPIO_TogglePin(heartbeatLedPort, heartbeatLedPin);
             statusLedTimer.reset();
-            std::cout << "\r" << forceValue << "     ";
+            //std::cout << "\r" << forceLeftValue << " , " << forceRightValue << "     ";
         }
 
         if(forceSensorLeft.isDataReady())   //XXX test
         {
-            forceValue = forceSensorLeft.getValue();
+            forceLeftValue = forceSensorLeft.getValue();
+        }
+        if(forceSensorRight.isDataReady())   //XXX test
+        {
+            forceRightValue = forceSensorRight.getValue();
         }
 
 //        if(gameCtrlTimer.hasElapsed(GameController::ReportInterval))
@@ -67,7 +73,7 @@ void mainLoop()
 //        }
 
 #ifdef MONITOR
-        monitor_forceX = static_cast<int16_t>(forceValue * 1000);
+        monitor_forceX = static_cast<int16_t>(forceLeftValue * 1000);
 #endif
     }
 }
