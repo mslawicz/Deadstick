@@ -10,6 +10,6 @@
 
 
 constexpr float Max31bitF = 0x7FFFFFFF;
-
+constexpr int16_t Max15bit = 0x7FFF;
 
 #endif /* INC_CONSTANT_H_ */
