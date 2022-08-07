@@ -10,7 +10,7 @@
 #include "main_loop_api.h"
 #include "main_loop.h"
 #include "timer.h"
-//#include "pc_link.h"
+#include "pc_link.h"
 //#include "convert.h"
 //#include "constant.h"
 #include "logger.h"
@@ -31,7 +31,7 @@ void mainLoop()
 {
     constexpr uint32_t HeartbeatPeriod = 500000;
     Timer statusLedTimer;
-//    Timer gameCtrlTimer;
+    Timer joyCtrlTimer;
 
     HX711 forceSensorLeft(HX711_1_clk_GPIO_Port, HX711_1_clk_Pin, HX711_1_data_GPIO_Port, HX711_1_data_Pin, HX711Mode::A64);
     HX711 forceSensorRight(HX711_2_clk_GPIO_Port, HX711_2_clk_Pin, HX711_2_data_GPIO_Port, HX711_2_data_Pin, HX711Mode::A64);
@@ -42,7 +42,7 @@ void mainLoop()
     GPIO_TypeDef* heartbeatLedPort = LD1_GPIO_Port; //green LED
     uint16_t heartbeatLedPin = LD1_Pin;
 
-//    GameController gameController;  //USB link-to-PC object (class custom HID - joystick)
+    JoystickController joystickController;  //USB link-to-PC object (class custom HID - joystick)
 
     Timer::start(pTimerHtim);
 
@@ -69,11 +69,11 @@ void mainLoop()
             forceRightValue = forceSensorRight.getValue();
         }
 
-//        if(gameCtrlTimer.hasElapsed(GameController::ReportInterval))
-//        {
-//            gameController.sendReport();
-//            gameCtrlTimer.reset();
-//        }
+        if(joyCtrlTimer.hasElapsed(JoystickController::ReportInterval))
+        {
+            joystickController.sendReport();
+            joyCtrlTimer.reset();
+        }
 
 #ifdef MONITOR
         monitor_forceXL = static_cast<int16_t>(forceLeftValue * 1000);

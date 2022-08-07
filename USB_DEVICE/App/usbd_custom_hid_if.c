@@ -170,7 +170,7 @@ extern USBD_HandleTypeDef hUsbDeviceFS;
 
 static int8_t CUSTOM_HID_Init_FS(void);
 static int8_t CUSTOM_HID_DeInit_FS(void);
-static int8_t CUSTOM_HID_OutEvent_FS(uint8_t event_idx, uint8_t state);
+static int8_t CUSTOM_HID_OutEvent_FS(uint8_t* pBuffer);
 
 /**
   * @}
@@ -219,7 +219,7 @@ static int8_t CUSTOM_HID_DeInit_FS(void)
   * @param  state: Event state
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t CUSTOM_HID_OutEvent_FS(uint8_t event_idx, uint8_t state)
+static int8_t CUSTOM_HID_OutEvent_FS(uint8_t* pBuffer)
 {
   /* USER CODE BEGIN 6 */
   UNUSED(pBuffer);
